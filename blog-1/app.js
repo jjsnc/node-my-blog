@@ -2,6 +2,15 @@ const querystring = require('querystring')
 const handleBlogRouter = require('./src/router/blog')
 const handleUserRouter = require('./src/router/user')
 
+const getCookieExpires = () => {
+    const d = new Date()
+    d.setTime(d.getTime() + (24 * 60 * 60 * 1000))
+    console.log('d.toGMTString() is ', d.toGMTString())
+    return d.toGMTString()
+}
+
+// session 数据
+const SESSION_DATA = {}
 // 用于处理 post data
 const getPostData = (req) => {
     const promise = new Promise((resolve, reject, ) => {
@@ -54,13 +63,33 @@ const serverHandle = (req, res) => {
         const val = arr[1].trim()
         req.cookie[key] = val
     })
-    console.log(req.cookie,'req.cookie')
+
+    // // 解析 session
+    let needSetCookie = false
+    console.log()
+    let userId = req.cookie.userid
+    console.log(userId,'userIduserId')
+    if (userId) {
+        if (!SESSION_DATA[userId]) {
+            SESSION_DATA[userId] = {}
+        }
+    } else {
+        needSetCookie = true
+        userId = `${Date.now()}_${Math.random()}`
+        SESSION_DATA[userId] = {}
+    }
+    req.session = SESSION_DATA[userId]
+    console.log(req.session, 'req.session')
+
     getPostData(req).then(postData => {
         req.body = postData
         // 处理blog 路由
         // const blogData = handleBlogRouter(req, res)
         const blogResult = handleBlogRouter(req, res)
         if (blogResult) {
+            if (needSetCookie) {
+                res.setHeader('Set-Cookie', `userid=${userId}; path=/; httpOnly;expires=${getCookieExpires()}`)
+            }
             blogResult.then(blogData => {
                 res.end(
                     JSON.stringify(blogData)
@@ -71,6 +100,9 @@ const serverHandle = (req, res) => {
         //  处理user路由
         const userResult = handleUserRouter(req, res)
         if (userResult) {
+            if (needSetCookie) {
+                res.setHeader('Set-Cookie', `userid=${userId}; path=/; httpOnly;expires=${getCookieExpires()}`)
+            }
             userResult.then(userData => {
                 res.end(
                     JSON.stringify(userData)
@@ -84,7 +116,7 @@ const serverHandle = (req, res) => {
         res.write('404 Not Found\n')
         res.end()
     })
-    
+
 
 }
 module.exports = serverHandle
