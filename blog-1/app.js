@@ -55,9 +55,13 @@ const serverHandle = (req, res) => {
             return
         }
         //  处理user路由
-        const UserData = handleUserRouter(req, res)
-        if (UserData) {
-            res.end(JSON.stringify(UserData))
+        const userResult = handleUserRouter(req, res)
+        if (userResult) {
+            userResult.then(userData => {
+                res.end(
+                    JSON.stringify(userData)
+                )
+            })
             return
         }
         // 未命中路由 返回 404 
