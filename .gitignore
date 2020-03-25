@@ -2,7 +2,7 @@
 
 # dependencies
 /blog-1/node_modules
-/blog-2/node_modules
+/redis-test/node_modules
 /node_modules
 /.pnp
 .pnp.js
