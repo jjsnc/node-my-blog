@@ -2,6 +2,7 @@ const querystring = require('querystring')
 const handleBlogRouter = require('./src/router/blog')
 const handleUserRouter = require('./src/router/user')
 const { get, set } = require('./src/db/redis')
+const { access } = require('./src/utils/log')
 const getCookieExpires = () => {
     const d = new Date()
     d.setTime(d.getTime() + (24 * 60 * 60 * 1000))
@@ -40,6 +41,8 @@ const getPostData = (req) => {
 }
 
 const serverHandle = (req, res) => {
+    // 记录 access log
+    access(`${req.method} -- ${req.url} -- ${req.headers['user-agent']} -- ${Date.now()}`)
     // 设置返回格式 JSON
     res.setHeader('Content-type', 'application/json')
 
@@ -83,21 +86,21 @@ const serverHandle = (req, res) => {
     let needSetCookie = false
     let userId = req.cookie.userid
 
-    if(!userId){
+    if (!userId) {
         needSetCookie = true
         userId = `${Date.now()}_${Math.random()}`
         //  初始化 redis 中 session 值
-        set(userId,{})
+        set(userId, {})
     }
     // 获取session
-    req.sessionId = userId 
-    get(req.sessionId).then(sessionData=> {
-        if(sessionData==null) {
+    req.sessionId = userId
+    get(req.sessionId).then(sessionData => {
+        if (sessionData == null) {
             // 初始化redis 中的session 值
-             set(req.sessionId, {})
+            set(req.sessionId, {})
             //  设置session
             req.session = {}
-        }else {
+        } else {
             // 设置session
             req.session = sessionData;
         }

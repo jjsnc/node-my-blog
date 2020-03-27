@@ -8,7 +8,7 @@ function writeLog(writeStream, log) {
 
 // 生成 write Stream
 function createWriteStream(fileName) {
-    const fullFileName = path.join(__dirname, '../', '../', 'logs', fileName)
+    const fullFileName = path.join(__dirname,'../', '../', '../', 'logs', fileName)
     const writeStream = fs.createWriteStream(fullFileName, {
         flags: 'a'
     })
