@@ -10,11 +10,14 @@ const redisStore = require('koa-redis')
 const path = require('path')
 const fs = require('fs')
 const morgan = require('koa-morgan')
+
 const index = require('./routes/index')
 const users = require('./routes/users')
 const blog = require('./routes/blog')
 const user = require('./routes/user')
+
 const { REDIS_CONF } = require('./conf/db')
+
 // error handler
 onerror(app)
 
@@ -37,7 +40,7 @@ app.use(async (ctx, next) => {
   const ms = new Date() - start
   console.log(`${ctx.method} ${ctx.url} - ${ms}ms`)
 })
-// 区分环境
+
 const ENV = process.env.NODE_ENV
 if (ENV !== 'production') {
   // 开发环境 / 测试环境
@@ -68,11 +71,12 @@ app.use(session({
     all: `${REDIS_CONF.host}:${REDIS_CONF.port}`
   })
 }))
+
 // routes
 app.use(index.routes(), index.allowedMethods())
 app.use(users.routes(), users.allowedMethods())
-app.use(blog.routes(),  blog.allowedMethods())
-app.use(user.routes(),  user.allowedMethods())
+app.use(blog.routes(), blog.allowedMethods())
+app.use(user.routes(), user.allowedMethods())
 
 // error-handling
 app.on('error', (err, ctx) => {

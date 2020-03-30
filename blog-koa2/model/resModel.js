@@ -14,15 +14,15 @@ class BaseModel {
     }
 }
 
-class SuccessModel extends BaseModel{
-    constructor(data, message){
+class SuccessModel extends BaseModel {
+    constructor(data, message) {
         super(data, message)
         this.errno = 0
     }
 }
 
-class ErrorModel extends BaseModel{
-    constructor(data, message){
+class ErrorModel extends BaseModel {
+    constructor(data, message) {
         super(data, message)
         this.errno = -1
     }
