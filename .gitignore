@@ -6,6 +6,7 @@
 /blog-koa2/node_modules
 /redis-test/node_modules
 /express-test/node_modules
+/pm2-test/node_modules
 /koa-test/node_modules
 /node_modules
 /.pnp
