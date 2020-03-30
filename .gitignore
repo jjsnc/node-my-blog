@@ -3,6 +3,7 @@
 # dependencies
 /blog-1/node_modules
 /blog-express/node_modules
+/blog-koa2/node_modules
 /redis-test/node_modules
 /express-test/node_modules
 /koa-test/node_modules
