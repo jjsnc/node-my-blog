@@ -9,6 +9,7 @@
 /pm2-test/node_modules
 /koa-test/node_modules
 /node_modules
+/logs
 /.pnp
 .pnp.js
 
