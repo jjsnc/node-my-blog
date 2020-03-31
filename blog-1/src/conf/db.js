@@ -2,7 +2,7 @@ const env = process.env.NODE_ENV  // 环境参数
 
 
 // 配置
-let MYSQL_CONF
+let MYSQL_CON,REDIS_CONF
 
 if (env === 'dev') {
     // mysql
