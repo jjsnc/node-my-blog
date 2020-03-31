@@ -36,3 +36,45 @@ package.json    //项目依赖包管理
 node + mysql + redis +koa2 + express + nginx 
 
 
+
+接口
+    nodejs处理http请求
+    搭建开发环境
+    处理路由
+    开发各个接口
+数据存储
+    mysql介绍
+    nodejs连接数据库
+    接口对接mysql
+登陆
+    cookie和session
+    登陆中间件开发
+    与前端页面联调（结合Nginx）
+    使用redis 存储session
+安全
+    预防sql注入
+    预防xss攻击
+日志
+    nodejs 文件操作
+    stream 流
+    日志功能开发
+    日志文件拆分
+    日志分析
+express
+    express 介绍和使用
+    中间件开发原理
+    开发API接口
+    结合常用插件
+    实现登陆与日志
+Koa2框架
+    koa2 介绍和使用
+    中间件实现原理
+    开发PAI接口
+    结合常用插件
+    实现登陆和日志
+线上环境
+    pm2 介绍和配置
+    pm2 多进程模型
+    服务器运维
+
+
